@@ -124,92 +124,80 @@ $( document ).ready(function() {
 
 				database.ref('users/'+uid+'/characters').push({
 					charName: newCharName,
-					playername: newPlayerName,
-					gender: newGender,
-					age: newAge,
-					height: newHeight,
-					weight: newWeight,
-					race: newRace,
-					exp: newExp,
-					back: newBack,
-					class: newClass,
-					level: newLevel,
-					hpMax: newHpMax,
+					playerName: newPlayerName,
+					charGender: newGender,
+					charAge: newAge,
+					charHeight: newHeight,
+					charWeight: newWeight,
+					charRace: newRace,
+					charExp: newExp,
+					charBack: newBack,
+					charClass: newClass,
+					charLevel: newLevel,
+					charHpMax: newHpMax,
 					dateAdded: firebase.database.ServerValue.TIMESTAMP
 				});
 
 			};
 
 
-			// Firebase watcher + initial loader HINT: .on("value")
-			// 	database.ref('users/'+uid+'/characters').on("child_added", function(snapshot) {
+			//Firebase watcher + initial loader HINT: .on("value")
+				database.ref('users/'+uid+'/characters').on("child_added", function(snapshot) {
 
-			// 		// storing the snapshot.val() in a variable for convenience
-			// 		var snapValue = snapshot.val();
+					// storing the snapshot.val() in a variable for convenience
+					var snapValue = snapshot.val();
 					
-			// 		// Getting an array of each key In the snapshot object
-			// 		var snapValueArr = Object.keys(snapValue);
+					// Getting an array of each key In the snapshot object
+					var snapValueArr = Object.keys(snapValue);
 
-			// 		// Finding the last user's key
-			// 		var lastIndex = snapValueArr.length - 1;
+					// Finding the last user's key
+					var lastIndex = snapValueArr.length - 1;
 
-			// 		var lastKey = snapValueArr[lastIndex];
+					var lastKey = snapValueArr[lastIndex];
 
-			// 		// Using the last user's key to access the last added user object
-			// 		var lastObj = snapValue[lastKey]
+					// Using the last user's key to access the last added user object
+					var lastObj = snapValue[lastKey]
 
-			// 	// Handle the errors
-			// 	}, function(errorObject) {
-			// 		console.log("Errors handled: " + errorObject.code);
-			// 	});
-
-
-
-			// 	database.ref('users/'+uid+'/characters').orderByChild("start").on("child_added", function(snapshot) {
-
-			// 		var removeRef = database.ref('users/'+uid+'/characters');
-
-			// 		var calMarkUp = {
-			// 			title: snapshot.val().title,
-			// 			startDate: snapshot.val().start
-			// 		};
-
-			// 		var newKey = snapshot.key;
-					
-			// 		eventsArray.push(calMarkUp);
-			// 		refreshCal();
-			// 		$('.cal1').clndr().setEvents(eventsArray);
-					
-			// 		var adjustedStart = moment(snapshot.val().start).format('LL');
-			// 		var adjustedStartTime = moment(snapshot.val().startTime).format('h:mm:ss a');
+				// Handle the errors
+				}, function(errorObject) {
+					console.log("Errors handled: " + errorObject.code);
+				});
 
 
-			// 		// adding new event to the page
-			// 		var newUpcoming = "<tr><td>" + snapshot.val().title 
-			// 		+ "</td><td>" + snapshot.val().location 
-			// 		+ "</td><td>" + adjustedStart 
-			// 		+ "</td><td>" + snapshot.val().startTime
-			// 		// + "</td><td>" + newEventButton
-			// 		+ "</td></tr>";
-			// 		$("#upcoming-Tbody").append(newUpcoming);
 
-			// 		// creating the delete button for an event
-			// 		var newEventButton = $('<button/>',{
-			// 			class: 'delete-button',
-			// 			text: 'Remove: '+snapshot.val().title,
-			// 			value: 'remove',
-			// 			click: function removal(){
-			// 				console.log("remove clicked")
-			// 				removeRef.child(newKey).remove().key;
-			// 				location.reload(true);
-			// 			}
-			// 		});
-			// 		// adding new button to the page
-			// 		$("#newButtonGoHere").append(newEventButton);
+				database.ref('users/'+uid+'/characters').orderByChild("start").on("child_added", function(snapshot) {
 
-			// 		numberOfEvents++;
+					var removeRef = database.ref('users/'+uid+'/characters');
 
-			// 	});
+					var newKey = snapshot.key;
+
+					// adding new char to the char library 
+					var newCharacter = "<div class='charLibcharDiv'><div class='charLibName'>" + snapshot.val().charName 
+					+ "</div><div>" + snapshot.val().charRace
+					+ "</div><div>" + snapshot.val().charClass
+					+ "</div><div>" + snapshot.val().charLevel
+					+ "</div><div>" + snapshot.val().charGender
+					+ "</div><div>" + snapshot.val().playerName
+					+ "</div></div>";
+					$("#add-char-here").append(newCharacter);
+
+					// // creating the delete button for an event
+					// var newCharButton = $('<button/>',{
+					// 	class: 'delete-button',
+					// 	text: 'Remove: '+snapshot.val().charName,
+					// 	value: 'remove',
+					// 	click: function removal(){
+					// 		console.log("remove clicked")
+					// 		removeRef.child(newKey).remove().key;
+					// 		location.reload(true);
+					// 	}
+					// });
+					// // adding new button to the page
+					// $("#newButtonGoHere").append(newEventButton);
+
+					// numberOfEvents++;
+
+				});
 		};
 	});
 });
